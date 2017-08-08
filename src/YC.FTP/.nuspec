@@ -6,6 +6,7 @@
     <authors>YC</authors>
     <owners>YC</owners>
     <title>YC.FTP</title>
+    <licenseUrl>https://github.com/ychsu/YC.FTP/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/ychsu/YC.FTP</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ftp (ftps) 操作</description>
