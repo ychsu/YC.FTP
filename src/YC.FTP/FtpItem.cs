@@ -12,13 +12,11 @@ namespace YC.Ftp
 
     public class FtpItem
     {
-        //private static string pattern = @"ftp(?<ssl>s)?://(?<host>([\w-]+\.)*\w+)(:(?<port>\d+))?(?<path>/.+)?";
         private static string pattern = @"(?<basePath>ftps?://([\w-]+\.)*\w+(:\d+)?)(?<path>/.+)?";
         private static Regex regex = new Regex(pattern);
         private KeyValuePair<string, Func<Match, FtpItem>> _pattern;
 
         private string _permissions;
-        private int _links;
         private string _owner;
         private string _group;
         private int _fileSize;
@@ -77,23 +75,6 @@ namespace YC.Ftp
             internal set
             {
                 this._permissions = value;
-            }
-        }
-
-        /// <summary>
-        /// 取得 Links (Unix Only)
-        /// </summary>
-        /// <returns></returns>
-        public int Links
-        {
-            get
-            {
-                CheckFileExists();
-                return this._links;
-            }
-            internal set
-            {
-                this._links = value;
             }
         }
 
@@ -197,7 +178,6 @@ namespace YC.Ftp
             {
                 this.FileSize = item.FileSize;
                 this.Group = item.Group;
-                this.Links = item.Links;
                 this.ModifiedOn = item.ModifiedOn;
                 this.Owner = item.Owner;
                 this.Permissions = item.Permissions;
@@ -252,7 +232,7 @@ namespace YC.Ftp
             var patterns = new Dictionary<string, Func<Match, FtpItem>>
             {
 			    // Unix
-			    { @"(?<Permissions>\S+)\s+(?<ObjectCount>\d+)\s+(?<OwnerUser>\S+)\s+(?<OwnerGroup>\S+)\s+(?<FileSize>\d+)\s+(?<ModifiedOn>\w+\s+\d+\s+\d+:\d+|\w+\s+\d+\s+\d+)\s(?<FileName>.*)$", m => UnixParser(m) },
+			    { @"(?<Permissions>\S+)\s+(?<ObjectCount>\d+)\s+(?<Owner>\S+)\s+(?<Group>\S+)\s+(?<FileSize>\d+)\s+(?<ModifiedOn>\w+\s+\d+\s+\d+:\d+|\w+\s+\d+\s+\d+)\s(?<FileName>.*)$", m => UnixParser(m) },
 			    // Dos
 			    { @"(?<ModifiedOn>\d+-\d+-\d+\s+\d+:\d+\w+)\s+((<DIR>)|(?<FileSize>\d+)\s+)(?<FileName>.*)$", m => DosParser(m) }
             };
@@ -287,14 +267,6 @@ namespace YC.Ftp
             item.Permissions = permissions;
             item.Owner = m.Groups[nameof(item.Owner)].Value.Trim();
             item.Group = m.Groups[nameof(item.Group)].Value.Trim();
-            if (m.Groups[nameof(item.Links)].Success == true)
-            {
-                int i;
-                if (int.TryParse(m.Groups[nameof(item.Links)].Value.Trim(), out i) == true)
-                {
-                    item.Links = i;
-                }
-            }
             if (m.Groups[nameof(item.FileSize)].Success == true)
             {
                 int i;
