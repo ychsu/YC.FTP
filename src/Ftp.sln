@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ftp", "YC.FTP\Ftp.csproj", "{C965DBFB-81F1-49B8-8765-848EF410AFC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ftp.Test", "Ftp.Test\Ftp.Test.csproj", "{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B787A0B-0D92-49C8-AFA0-C3356A3AB3B8}"
+	ProjectSection(SolutionItems) = preProject
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C965DBFB-81F1-49B8-8765-848EF410AFC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C965DBFB-81F1-49B8-8765-848EF410AFC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C965DBFB-81F1-49B8-8765-848EF410AFC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C965DBFB-81F1-49B8-8765-848EF410AFC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>YC</authors>
+    <owners>YC</owners>
+    <title>YC.FTP</title>
+    <projectUrl>https://github.com/ychsu/YC.FTP</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ftp (ftps) 操作</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>ftp, ftps</tags>
+  </metadata>
+</package>
