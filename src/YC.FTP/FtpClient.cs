@@ -1,30 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using YC.Ftp.Enums;
 
 namespace YC.Ftp
 {
-    internal class FtpClient
+    public class FtpClient
     {
         static FtpClient()
         {
             WebRequest.RegisterPrefix("ftps", new FtpsWebRequestCreator());
         }
 
-        public FtpClient(string basePath, ICredentials credential)
+        internal FtpClient(string basePath, ICredentials credential)
         {
+            if ((WebRequest.Create(basePath) is FtpWebRequest) == false)
+            {
+                throw new NotSupportedException("the URI prefix is not supported.");
+            }
+
             this.BasePath = basePath.TrimEnd('/');
             this.Credentials = credential;
         }
 
         public string BasePath { get; private set; }
 
-        public ICredentials Credentials { get; private set; }
+        public ICredentials Credentials { get; set; }
 
         internal Stream Request(string path, FtpMethod method, Stream requestStream)
         {

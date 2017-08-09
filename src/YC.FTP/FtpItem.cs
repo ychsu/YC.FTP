@@ -22,6 +22,7 @@ namespace YC.Ftp
         private int _fileSize;
         private DateTime _modifiedOn;
         private bool? _exists;
+        internal FtpDirectory _parent;
 
         internal FtpItem(FtpClient client, string fullName)
         {
@@ -43,7 +44,7 @@ namespace YC.Ftp
             this.FullName = match.Groups["path"].Success ? match.Groups["path"].Value : "/";
         }
 
-        internal FtpClient Client { get; private set; }
+        public FtpClient Client { get; private set; }
 
         /// <summary>
         /// 取得檔案完整路徑
@@ -171,8 +172,8 @@ namespace YC.Ftp
 
         private void LoadFileItem()
         {
-            var parent = new FtpDirectory(this.Client, this.FullName.Substring(0, this.FullName.LastIndexOf('/')));
-            var item = parent.GetFile(this.Name);
+            var item = this.GetParent()?.GetItems()
+                .FirstOrDefault(p => p.Name ==  this.Name);
             this.Exists = item != null;
             if (this.Exists)
             {
@@ -209,7 +210,7 @@ namespace YC.Ftp
             }
             var splits = this.FullName
                 .Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            return new FtpDirectory(this.Client,
+            return this._parent ?? new FtpDirectory(this.Client,
                 "/" + string.Join("/", splits.Take(splits.Length - 1)));
         }
 

@@ -43,7 +43,9 @@ namespace YC.Ftp
                     {
                         yield return null;
                     }
-                    yield return pattern.Value(match);
+                    var item = pattern.Value(match);
+                    item._parent = this;
+                    yield return item;
                 }
             }
         }
@@ -55,7 +57,11 @@ namespace YC.Ftp
 
         public FtpDirectory GetDirectory(string directory)
         {
-            return this.GetDirectories().FirstOrDefault(dir => dir.Name == directory);
+            return this.GetDirectories().FirstOrDefault(dir => dir.Name == directory) ??
+                new FtpDirectory(this.Client, this.FullName.TrimEnd('/') + "/" + directory)
+                {
+                    _parent = this
+                };
         }
 
         public IEnumerable<FtpFile> GetFiles()
@@ -65,7 +71,11 @@ namespace YC.Ftp
 
         public FtpFile GetFile(string file)
         {
-            return this.GetFiles().FirstOrDefault(dir => dir.Name == file);
+            return this.GetFiles().FirstOrDefault(dir => dir.Name == file) ??
+                new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + file)
+                {
+                    _parent = this
+                };
         }
 
         public bool Create()
@@ -87,7 +97,10 @@ namespace YC.Ftp
             {
                 var fullName = this.FullName.TrimEnd('/') + "/" + name;
                 this.Client.Request(fullName, FtpMethod.MakeDirectory, null);
-                return new FtpDirectory(this.Client, fullName);
+                return new FtpDirectory(this.Client, fullName)
+                {
+                    _parent = this
+                };
             }
             catch (Exception)
             {
@@ -99,7 +112,8 @@ namespace YC.Ftp
         {
             return new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + name)
             {
-                Exists = false
+                Exists = false,
+                _parent = this
             };
         }
     }
