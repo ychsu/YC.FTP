@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace YC.Ftp
 {
     using Exceptions;
+    using System.IO;
 
     public class FtpItem
     {
@@ -44,7 +45,7 @@ namespace YC.Ftp
             this.FullName = match.Groups["path"].Success ? match.Groups["path"].Value : "/";
         }
 
-        public FtpClient Client { get; private set; }
+        internal FtpClient Client { get; private set; }
 
         /// <summary>
         /// 取得檔案完整路徑
@@ -220,6 +221,19 @@ namespace YC.Ftp
             {
                 var method = this is FtpDirectory ? Enums.FtpMethod.RemoveDirectory : Enums.FtpMethod.DeleteFile;
                 this.Client.Request(this.FullName, method, null);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool MoveTo(string path)
+        {
+            try
+            {
+                this.Client.MoveTo(this.FullName, path);
             }
             catch (Exception)
             {

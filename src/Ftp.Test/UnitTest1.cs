@@ -89,5 +89,15 @@ namespace YC.Ftp.Test
                 .Select(p => p.FullName);
             Console.WriteLine(string.Join(",", items));
         }
+
+        [TestMethod]
+        public void MoveFile()
+        {
+            var credential = new NetworkCredential("yc", "yc");
+            var dir = new FtpDirectory("ftps://localhost/YC.FTP", credential);
+            var items = dir?.GetFiles()
+                .FirstOrDefault()
+                ?.MoveTo("/YC.FTP/FILE2");
+        }
     }
 }

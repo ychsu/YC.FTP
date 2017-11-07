@@ -5,7 +5,7 @@ using YC.Ftp.Enums;
 
 namespace YC.Ftp
 {
-    public class FtpClient
+    internal class FtpClient
     {
         static FtpClient()
         {
@@ -29,19 +29,38 @@ namespace YC.Ftp
 
         internal Stream Request(string path, FtpMethod method, Stream requestStream)
         {
-            var requestUri = new Uri($"{BasePath}{path}");
-            FtpWebRequest request = WebRequest.Create(requestUri) as FtpWebRequest;
-            request.Method = typeof(WebRequestMethods.Ftp).GetField(method.ToString()).GetValue(null).ToString();
-            if (this.Credentials != null)
-            {
-                request.Credentials = this.Credentials;
-            }
+            var request = GetRequest(path, typeof(WebRequestMethods.Ftp).GetField(method.ToString()).GetValue(null).ToString());
             if (requestStream != null)
             {
                 Stream stream = request.GetRequestStream();
                 requestStream.CopyTo(stream);
                 stream.Close();
             }
+            return GetResponse(request);
+        }
+
+        internal Stream MoveTo(string path, string newPath)
+        {
+            var request = GetRequest(path, WebRequestMethods.Ftp.Rename);
+            request.RenameTo = newPath;
+            return GetResponse(request);
+        }
+
+        private FtpWebRequest GetRequest(string path, string method)
+        {
+            var requestUri = new Uri($"{BasePath}{path}");
+            FtpWebRequest request = WebRequest.Create(requestUri) as FtpWebRequest;
+            request.Method = method;
+            if (this.Credentials != null)
+            {
+                request.Credentials = this.Credentials;
+            }
+
+            return request;
+        }
+
+        private Stream GetResponse(FtpWebRequest request)
+        {
             FtpWebResponse response = request.GetResponse() as FtpWebResponse;
             MemoryStream memoryStream = this.ConvertToMemoryStream(response.GetResponseStream());
             response.Close();
