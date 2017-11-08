@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/ychsu/YC.FTP</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ftp (ftps) 操作</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>解決日期判斷的bug</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>ftp, ftps</tags>
   </metadata>

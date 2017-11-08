@@ -294,8 +294,8 @@ namespace YC.Ftp
             {
                 var formats = new string[]
                 {
-                "MMM dd HH:mm",
-                "MMM dd yyyy"
+                "MMM d HH:mm",
+                "MMM d yyyy"
                 };
                 var provider = System.Globalization.CultureInfo.GetCultureInfo("en-US");
                 DateTime i;
