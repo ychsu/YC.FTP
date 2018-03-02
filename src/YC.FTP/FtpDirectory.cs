@@ -32,7 +32,7 @@ namespace YC.Ftp
         public IEnumerable<FtpItem> GetItems()
         {
             var stream = this.Client.Request(this.FullName, FtpMethod.ListDirectoryDetails, null);
-            using (var sr = new StreamReader(stream, Encoding.Default))
+            using (var sr = new StreamReader(stream, FtpConfig.Current.Encoding))
             {
                 while (sr.Peek() > -1)
                 {

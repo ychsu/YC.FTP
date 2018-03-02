@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\FtpFileNotFoundException.cs" />
     <Compile Include="FtpClient.cs" />
+    <Compile Include="FtpConfig.cs" />
     <Compile Include="FtpDirectory.cs" />
     <Compile Include="Exceptions\FtpPathErrorException.cs" />
     <Compile Include="FtpFile.cs" />
