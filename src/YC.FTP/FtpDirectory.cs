@@ -123,7 +123,7 @@ namespace YC.Ftp
             {
                 var items = this.GetItems();
                 items.AsParallel()
-                    .Where(item => (item is FtpDirectory dir ? dir.Delete(true) : item.Delete()) && false)
+                    .Where(item => (item is FtpDirectory ? (item as FtpDirectory).Delete(true) : item.Delete()) && false)
                     .ToList();
 
             }
