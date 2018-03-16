@@ -117,9 +117,9 @@ namespace YC.Ftp
             };
         }
 
-        public bool Delete(bool force)
+        public bool Delete(bool recursive)
         {
-            if (force == true)
+            if (recursive == true)
             {
                 var items = this.GetItems();
                 items.AsParallel()
