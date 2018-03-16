@@ -36,7 +36,7 @@ namespace YC.Ftp.Test
         public void AppendFileTest()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftps://localhost", credential);
+            var root = new FtpDirectory("ftp://localhost", credential);
             var dir = root.GetDirectory("YC.FTP");
             var file = dir.GetFile("FILE") ?? dir.CreateFile("FILE");
             var stream = file.OpenAppend();
@@ -51,7 +51,7 @@ namespace YC.Ftp.Test
         public void DeleteFileTest()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftps://localhost", credential);
+            var root = new FtpDirectory("ftp://localhost", credential);
             var dir = root.GetDirectory("YC.FTP");
             var file = dir.GetFile("FILE");
             if (file?.Exists == true)
@@ -64,7 +64,7 @@ namespace YC.Ftp.Test
         public void CreateFolderTest()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftps://localhost", credential);
+            var root = new FtpDirectory("ftp://localhost", credential);
             var dir = root.GetDirectory("YC.FTP");
             dir.CreateSubdirectory("test");
         }
@@ -73,10 +73,10 @@ namespace YC.Ftp.Test
         public void DeleteFolderTest()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftps://localhost/YC.FTP/test", credential);
+            var dir = new FtpDirectory("ftp://localhost/YC.FTP/test", credential);
             if (dir?.Exists == true)
             {
-                dir.Delete();
+                dir.Delete(true);
             }
         }
 
@@ -84,7 +84,7 @@ namespace YC.Ftp.Test
         public void GetItemsTest()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftps://localhost/YC.FTP", credential);
+            var dir = new FtpDirectory("ftp://localhost/YC.FTP", credential);
             var items = dir?.GetItems()
                 .Select(p => p.FullName);
             Console.WriteLine(string.Join(",", items));
@@ -94,7 +94,7 @@ namespace YC.Ftp.Test
         public void MoveFile()
         {
             var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftps://localhost/YC.FTP", credential);
+            var dir = new FtpDirectory("ftp://localhost/YC.FTP", credential);
             var items = dir?.GetFiles()
                 .FirstOrDefault()
                 ?.MoveTo("/YC.FTP/FILE2");

@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/ychsu/YC.FTP</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ftp (ftps) 操作</description>
-    <releaseNotes>增加編碼可控性</releaseNotes>
+    <releaseNotes>針對資料夾提供遞迴刪除 (若資料夾有檔案仍可刪除)</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>ftp, ftps</tags>
   </metadata>

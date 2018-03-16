@@ -116,5 +116,18 @@ namespace YC.Ftp
                 _parent = this
             };
         }
+
+        public bool Delete(bool force)
+        {
+            if (force == true)
+            {
+                var items = this.GetItems();
+                items.AsParallel()
+                    .Where(item => (item is FtpDirectory dir ? dir.Delete(true) : item.Delete()) && false)
+                    .ToList();
+
+            }
+            return base.Delete();
+        }
     }
 }
