@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
+    <id>YC.Ftp</id>
+    <version>0.3.1</version>
     <authors>YC</authors>
     <owners>YC</owners>
     <title>YC.FTP</title>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ftp (ftps) 操作</description>
     <releaseNotes>針對資料夾提供遞迴刪除 (若資料夾有檔案仍可刪除)</releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2019</copyright>
     <tags>ftp, ftps</tags>
   </metadata>
 </package>

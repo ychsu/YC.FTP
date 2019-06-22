@@ -96,11 +96,15 @@ namespace YC.Ftp
             try
             {
                 var fullName = this.FullName.TrimEnd('/') + "/" + name;
-                this.Client.Request(fullName, FtpMethod.MakeDirectory, null);
-                return new FtpDirectory(this.Client, fullName)
+                var dir = new FtpDirectory(this.Client, fullName)
                 {
                     _parent = this
                 };
+                if (dir.Exists == false)
+                {
+                    dir.Create();
+                }
+                return dir;
             }
             catch (Exception)
             {
