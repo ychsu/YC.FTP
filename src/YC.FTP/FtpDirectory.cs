@@ -83,6 +83,7 @@ namespace YC.Ftp
             try
             {
                 this.Client.Request(this.FullName, FtpMethod.MakeDirectory, null);
+                this.Exists = true;
             }
             catch (Exception)
             {
