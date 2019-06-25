@@ -234,6 +234,7 @@ namespace YC.Ftp
             try
             {
                 this.Client.MoveTo(this.FullName, path);
+                this.FullName = path;
             }
             catch (Exception)
             {

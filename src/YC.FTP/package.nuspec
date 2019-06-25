@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>YC.Ftp</id>
-    <version>0.3.1</version>
+    <version>0.3.3</version>
     <authors>YC</authors>
     <owners>YC</owners>
     <title>YC.FTP</title>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/ychsu/YC.FTP</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ftp (ftps) 操作</description>
-    <releaseNotes>針對資料夾提供遞迴刪除 (若資料夾有檔案仍可刪除)</releaseNotes>
+    <releaseNotes>資料夾/檔案 移動後, FullName 更換成新路徑</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>ftp, ftps</tags>
   </metadata>
