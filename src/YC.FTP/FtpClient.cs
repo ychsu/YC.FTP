@@ -51,6 +51,8 @@ namespace YC.Ftp
             var requestUri = new Uri($"{BasePath}{path}");
             FtpWebRequest request = WebRequest.Create(requestUri) as FtpWebRequest;
             request.Method = method;
+            request.Timeout = Constants.TimeOut;
+            request.ReadWriteTimeout = Constants.ReadWriteTimeout;
             if (this.Credentials != null)
             {
                 request.Credentials = this.Credentials;
