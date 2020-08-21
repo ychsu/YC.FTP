@@ -10,8 +10,8 @@ namespace YC.Ftp
 {
     public class FtpFile : FtpItem
     {
-        internal FtpFile(FtpClient client, string fullName)
-            : base(client, fullName)
+        internal FtpFile(FtpClient client, string fullName, Encoding encoding)
+            : base(client, fullName, encoding)
         {
 
         }

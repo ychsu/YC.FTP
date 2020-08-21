@@ -10,18 +10,22 @@ namespace YC.Ftp.Test
     [TestClass]
     public class UnitTest1
     {
+        private const string FTP_BASE_URL = "ftp://localhost";
+        private NetworkCredential credential;
+
         [TestInitialize]
         public void Initial()
         {
             ServicePointManager.ServerCertificateValidationCallback = 
                 new RemoteCertificateValidationCallback((sender, certificate, chain, errors) => true);
+
+            this.credential = new NetworkCredential("yc", "yc");
         }
 
         [TestMethod]
         public void UploadFileTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftp://localhost", credential);
+            var root = new FtpDirectory(FTP_BASE_URL, credential);
             var dir = root.GetDirectory("YC.FTP");
             var file = dir.GetFile("FILE") ?? dir.CreateFile("FILE");
             var stream = file.OpenWrite();
@@ -35,8 +39,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void AppendFileTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftp://localhost", credential);
+            var root = new FtpDirectory(FTP_BASE_URL, credential);
             var dir = root.GetDirectory("YC.FTP");
             var file = dir.GetFile("FILE") ?? dir.CreateFile("FILE");
             var stream = file.OpenAppend();
@@ -50,8 +53,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void DeleteFileTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftp://localhost", credential);
+            var root = new FtpDirectory(FTP_BASE_URL, credential);
             var dir = root.GetDirectory("YC.FTP");
             var file = dir.GetFile("FILE");
             if (file?.Exists == true)
@@ -63,8 +65,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void CreateFolderTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var root = new FtpDirectory("ftp://localhost", credential);
+            var root = new FtpDirectory(FTP_BASE_URL, credential);
             var dir = root.GetDirectory("YC.FTP");
             dir.CreateSubdirectory("test");
         }
@@ -72,8 +73,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void DeleteFolderTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftp://localhost/YC.FTP/test", credential);
+            var dir = new FtpDirectory($"{FTP_BASE_URL}/YC.FTP/test", credential);
             if (dir?.Exists == true)
             {
                 dir.Delete(true);
@@ -83,8 +83,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void GetItemsTest()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftp://localhost/YC.FTP", credential);
+            var dir = new FtpDirectory($"{FTP_BASE_URL}localhost/YC.FTP", credential);
             var items = dir?.GetItems()
                 .Select(p => p.FullName);
             Console.WriteLine(string.Join(",", items));
@@ -93,8 +92,7 @@ namespace YC.Ftp.Test
         [TestMethod]
         public void MoveFile()
         {
-            var credential = new NetworkCredential("yc", "yc");
-            var dir = new FtpDirectory("ftp://localhost/YC.FTP", credential);
+            var dir = new FtpDirectory($"{FTP_BASE_URL}/YC.FTP", credential);
             var items = dir?.GetFiles()
                 .FirstOrDefault()
                 ?.MoveTo("/YC.FTP/FILE2");

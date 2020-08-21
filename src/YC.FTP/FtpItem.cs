@@ -24,25 +24,34 @@ namespace YC.Ftp
         private DateTime _modifiedOn;
         private bool? _exists;
         internal FtpDirectory _parent;
+        internal readonly Encoding encoding;
 
-        internal FtpItem(FtpClient client, string fullName)
+        internal FtpItem(FtpClient client, string fullName, Encoding encoding)
         {
             this.Client = client;
             this.FullName = fullName;
+            this.encoding = encoding;
         }
 
-        public FtpItem(string path, ICredentials credential)
+        public FtpItem(string path, ICredentials credential, Encoding encoding = null)
+            : this(regex.Match(path), credential, encoding)
         {
-            var match = regex.Match(path);
-            if (match.Success == false)
-            {
-                throw new FtpPathErrorException(path);
-            }
+        }
 
-            var basePath = match.Groups["basePath"].Value;
-            this.Client = new FtpClient(basePath, credential);
+        private FtpItem(Match match, ICredentials credentials, Encoding encoding)
+            : this(CreateFtpClient(match, credentials), GetPath(match), encoding)
+        {
 
-            this.FullName = match.Groups["path"].Success ? match.Groups["path"].Value : "/";
+        }
+
+        private static string GetPath(Match match)
+        {
+            return match.Groups["path"].Success ? match.Groups["path"].Value : "/";
+        }
+
+        private static FtpClient CreateFtpClient(Match match, ICredentials credentials)
+        {
+            return match.Success ? new FtpClient(match.Groups["basePath"].Value, credentials) : throw new FtpPathErrorException(match.Value);
         }
 
         internal FtpClient Client { get; private set; }
@@ -174,7 +183,7 @@ namespace YC.Ftp
         private void LoadFileItem()
         {
             var item = this.GetParent()?.GetItems()
-                .FirstOrDefault(p => p.Name ==  this.Name);
+                .FirstOrDefault(p => p.Name == this.Name);
             this.Exists = item != null;
             if (this.Exists)
             {
@@ -200,7 +209,7 @@ namespace YC.Ftp
             {
                 return null;
             }
-            return new FtpDirectory(this.Client, "/");
+            return new FtpDirectory(this.Client, "/", this.encoding);
         }
 
         public FtpDirectory GetParent()
@@ -211,8 +220,8 @@ namespace YC.Ftp
             }
             var splits = this.FullName
                 .Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-            return this._parent ?? new FtpDirectory(this.Client,
-                "/" + string.Join("/", splits.Take(splits.Length - 1)));
+            return this._parent ?? 
+                new FtpDirectory(this.Client, "/" + string.Join("/", splits.Take(splits.Length - 1)), this.encoding);
         }
 
         public bool Delete()
@@ -277,8 +286,8 @@ namespace YC.Ftp
             var fullName = FullName.TrimEnd('/');
             var fileName = m.Groups["FileName"].Value.Trim();
             FtpItem item = permissions[0] == 'd' ?
-                new FtpDirectory(this.Client, fullName + "/" + fileName) as FtpItem :
-                new FtpFile(Client, fullName + "/" + fileName) as FtpItem;
+                new FtpDirectory(this.Client, fullName + "/" + fileName, this.encoding) as FtpItem :
+                new FtpFile(Client, fullName + "/" + fileName, this.encoding) as FtpItem;
             item.Exists = true;
             item.Permissions = permissions;
             item.Owner = m.Groups[nameof(item.Owner)].Value.Trim();
@@ -314,8 +323,8 @@ namespace YC.Ftp
             var fullName = FullName.TrimEnd('/');
             var fileName = m.Groups["FileName"].Value.Trim();
             FtpItem item = isDir ?
-                new FtpDirectory(Client, fullName + "/" + fileName) as FtpItem :
-                new FtpFile(Client, fullName + "/" + fileName) as FtpItem;
+                new FtpDirectory(Client, fullName + "/" + fileName, this.encoding) as FtpItem :
+                new FtpFile(Client, fullName + "/" + fileName, this.encoding) as FtpItem;
             item.Exists = true;
             if (m.Groups[nameof(item.FileSize)].Success == true)
             {

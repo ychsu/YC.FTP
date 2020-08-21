@@ -13,8 +13,8 @@ namespace YC.Ftp
     public class FtpDirectory
         : FtpItem
     {
-        internal FtpDirectory(FtpClient client, string fullName)
-            : base(client, fullName)
+        internal FtpDirectory(FtpClient client, string fullName, Encoding encoding)
+            : base(client, fullName, encoding)
         {
 
         }
@@ -32,7 +32,7 @@ namespace YC.Ftp
         public IEnumerable<FtpItem> GetItems()
         {
             var stream = this.Client.Request(this.FullName, FtpMethod.ListDirectoryDetails, null);
-            using (var sr = new StreamReader(stream, FtpConfig.Current.Encoding))
+            using (var sr = new StreamReader(stream, this.encoding ?? FtpConfig.Current.Encoding))
             {
                 while (sr.Peek() > -1)
                 {
@@ -50,33 +50,23 @@ namespace YC.Ftp
             }
         }
 
-        public IEnumerable<FtpDirectory> GetDirectories()
-        {
-            return this.GetItems().OfType<FtpDirectory>();
-        }
+        public IEnumerable<FtpDirectory> GetDirectories() => this.GetItems().OfType<FtpDirectory>();
 
-        public FtpDirectory GetDirectory(string directory)
-        {
-            return this.GetDirectories().FirstOrDefault(dir => dir.Name == directory) ??
-                new FtpDirectory(this.Client, this.FullName.TrimEnd('/') + "/" + directory)
+        public FtpDirectory GetDirectory(string directory) =>
+            this.GetDirectories().FirstOrDefault(dir => dir.Name == directory) ??
+            new FtpDirectory(this.Client, this.FullName.TrimEnd('/') + "/" + directory, base.encoding)
+            {
+                _parent = this
+            };
+
+        public IEnumerable<FtpFile> GetFiles() => this.GetItems().OfType<FtpFile>();
+
+        public FtpFile GetFile(string file) =>
+            this.GetFiles().FirstOrDefault(dir => dir.Name == file) ??
+                new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + file, base.encoding)
                 {
                     _parent = this
                 };
-        }
-
-        public IEnumerable<FtpFile> GetFiles()
-        {
-            return this.GetItems().OfType<FtpFile>();
-        }
-
-        public FtpFile GetFile(string file)
-        {
-            return this.GetFiles().FirstOrDefault(dir => dir.Name == file) ??
-                new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + file)
-                {
-                    _parent = this
-                };
-        }
 
         public bool Create()
         {
@@ -97,7 +87,7 @@ namespace YC.Ftp
             try
             {
                 var fullName = this.FullName.TrimEnd('/') + "/" + name;
-                var dir = new FtpDirectory(this.Client, fullName)
+                var dir = new FtpDirectory(this.Client, fullName, base.encoding)
                 {
                     _parent = this
                 };
@@ -115,7 +105,7 @@ namespace YC.Ftp
 
         public FtpFile CreateFile(string name)
         {
-            return new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + name)
+            return new FtpFile(this.Client, this.FullName.TrimEnd('/') + "/" + name, base.encoding)
             {
                 Exists = false,
                 _parent = this

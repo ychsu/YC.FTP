@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ftp", "YC.FTP\Ftp.csproj", "{C965DBFB-81F1-49B8-8765-848EF410AFC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YC.Ftp", "YC.FTP\YC.Ftp.csproj", "{C965DBFB-81F1-49B8-8765-848EF410AFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ftp.Test", "Ftp.Test\Ftp.Test.csproj", "{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YC.Ftp.Test", "YC.Ftp.Test\YC.Ftp.Test.csproj", "{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B787A0B-0D92-49C8-AFA0-C3356A3AB3B8}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE709A15-E06E-40C0-9AE7-1577875E2CC3}
 	EndGlobalSection
 EndGlobal

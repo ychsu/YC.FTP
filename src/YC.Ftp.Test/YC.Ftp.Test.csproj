@@ -8,8 +8,8 @@
     <ProjectGuid>{1C9CF85A-DE3C-4EF2-AF4F-00FE789B08F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ftp.Test</RootNamespace>
-    <AssemblyName>Ftp.Test</AssemblyName>
+    <RootNamespace>YC.Ftp.Test</RootNamespace>
+    <AssemblyName>YC.Ftp.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YC.FTP\Ftp.csproj">
+    <ProjectReference Include="..\YC.FTP\YC.Ftp.csproj">
       <Project>{c965dbfb-81f1-49b8-8765-848ef410afc0}</Project>
-      <Name>Ftp</Name>
+      <Name>YC.Ftp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
