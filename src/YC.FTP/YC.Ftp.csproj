@@ -4,6 +4,17 @@
     <TargetFrameworks>netstandard2.1;netstandard2.0;net40;net45</TargetFrameworks>
     <AssemblyName>YC.Ftp</AssemblyName>
     <RootNamespace>YC.Ftp</RootNamespace>
+    <PackageProjectUrl>https://github.com/ychsu/YC.FTP</PackageProjectUrl>
+    <PackageLicenseExpression>
+      MIT
+    </PackageLicenseExpression>
+    <PackageReleaseNotes>支援多框架</PackageReleaseNotes>
+    <Description>ftp (ftps) 操作</Description>
+    <Authors>YC</Authors>
+    <Company>YC</Company>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2020</Copyright>
+    <PackageTags>ftp, ftps</PackageTags>
   </PropertyGroup>
 
 </Project>
